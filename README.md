@@ -32,30 +32,30 @@ Crie e ative o ambiente virtual.
 No Windows (PowerShell):
 
     python -m venv .venv
-    .venv\Scripts\Activate.ps1
+    ./.venv/Scripts/Activate.ps1
+
+Se o PowerShell informar que a execução de scripts está desabilitada, rode uma vez o comando abaixo e repita a ativação:
+
+    Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
 No Linux ou macOS:
 
     python -m venv .venv
     source .venv/bin/activate
 
-Instale as dependências:
+Com o ambiente ativo (o nome `(.venv)` aparece no início da linha), instale as dependências:
 
-    pip install -r requirements.txt
+    python -m pip install -r requirements.txt
+
+Observação: `python -m pip` equivale ao comando `pip` e evita o bloqueio de executáveis que ocorre em alguns computadores Windows com Controle de Aplicativo ativado.
 
 ## Configuração
 
-O projeto usa uma chave secreta para assinar os tokens JWT. Ela fica em um arquivo `.env`, que não é versionado.
+O projeto usa uma chave secreta para assinar os tokens JWT. Ela fica em um arquivo `.env`, que não é versionado (o arquivo `.env.example` mostra o formato esperado).
 
-Copie o arquivo de exemplo:
+Crie o arquivo `.env` com uma chave aleatória gerada na hora:
 
-    copy .env.example .env
-
-(no Linux ou macOS, use `cp .env.example .env`).
-
-Gere uma chave aleatória com o comando abaixo e cole o resultado no `.env`, no lugar do texto de exemplo, ficando `SECRET_KEY=` seguido da chave:
-
-    python -c "import secrets; print(secrets.token_hex(32))"
+    python -c "import secrets; open('.env','w').write('SECRET_KEY=' + secrets.token_hex(32))"
 
 Banco de dados: não é preciso instalar nem configurar nada. As tabelas (categorias, tarefas e usuarios) são criadas automaticamente no arquivo `tarefas.db` na primeira execução, a partir dos modelos definidos em `models.py`.
 
@@ -85,7 +85,13 @@ Com a API rodando, acesse http://127.0.0.1:8000/docs para ver e testar todos os 
 
 ## Exemplo de requisição
 
-Listar as tarefas ainda não concluídas:
+Listar as tarefas ainda não concluídas.
+
+No Windows (PowerShell):
+
+    curl.exe "http://127.0.0.1:8000/tarefas?concluida=false"
+
+No Linux ou macOS:
 
     curl "http://127.0.0.1:8000/tarefas?concluida=false"
 

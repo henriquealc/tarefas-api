@@ -24,7 +24,7 @@ A API permite organizar tarefas por categoria (por exemplo, a categoria "Faculda
 
 Clone o repositório e entre na pasta do projeto:
 
-    git clone LINK-DO-REPOSITORIO
+    git clone https://github.com/henriquealc/tarefas-api.git
     cd tarefas-api
 
 Crie e ative o ambiente virtual.
